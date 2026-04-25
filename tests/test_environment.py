@@ -510,6 +510,12 @@ class TestAPI:
         assert resp.status_code == 200
         tools = resp.json()["result"]["tools"]
         assert len(tools) == 3
+        names = {t["name"] for t in tools}
+        assert names == {
+            "cos_episode_reset",
+            "cos_environment_step",
+            "cos_session_snapshot",
+        }
 
 
 # ===================================================================

@@ -47,7 +47,7 @@ curl "https://jayant2304-commitment-os.hf.space/state"
 | `/state` | GET | Current episode state |
 | `/health` | GET | Health check |
 | `/tasks` | GET | List all available scenarios |
-| `/mcp` | POST | MCP JSON-RPC 2.0 |
+| `/mcp` | POST | MCP JSON-RPC 2.0 (`initialize`, `tools/list`; tool names `cos_episode_reset`, `cos_environment_step`, `cos_session_snapshot` — not the reserved strings `reset`/`step`/`state`) |
 
 ## 15 Scenarios (5 Easy / 5 Medium / 5 Hard)
 
@@ -75,6 +75,8 @@ is a tracked, penalised violation.
 
 This is **temporal commitment coherence** — a capability no existing RL
 environment trains.
+
+Training curves for the published Colab run are in the GitHub repo under `artifacts/loss_curve.png` and `artifacts/reward_curve.png` (with `training_metrics.json`).
 
 ## Improvement Evidence
 

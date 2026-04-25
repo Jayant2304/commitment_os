@@ -15,20 +15,22 @@ _CAPABILITIES = {
     "resources": {"subscribe": False, "listChanged": False},
 }
 
+# MCP tool names must not collide with OpenEnv reserved names (reset/step/state/close).
+# HTTP routes remain POST /reset, POST /step, GET /state — this list is only for MCP discovery.
 _TOOLS = [
     {
-        "name": "reset",
-        "description": "Start a new CommitmentOS episode",
+        "name": "cos_episode_reset",
+        "description": "Start a new CommitmentOS episode (maps to HTTP POST /reset)",
         "inputSchema": CommitmentAction.model_json_schema(),
     },
     {
-        "name": "step",
-        "description": "Execute one tool call in the current episode",
+        "name": "cos_environment_step",
+        "description": "Execute one tool call in the current episode (maps to HTTP POST /step)",
         "inputSchema": CommitmentAction.model_json_schema(),
     },
     {
-        "name": "state",
-        "description": "Get current episode state",
+        "name": "cos_session_snapshot",
+        "description": "Get current episode state (maps to HTTP GET /state)",
         "inputSchema": {"type": "object", "properties": {}},
     },
 ]

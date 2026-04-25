@@ -10,11 +10,20 @@
 
 - **GitHub:** [Jayant2304/commitment_os](https://github.com/Jayant2304/commitment_os)
 - **Hugging Face Space** (live API + Space README): [Jayant2304/commitment-os](https://huggingface.co/spaces/Jayant2304/commitment-os)
+- **Pitch (additional materials):** the Hugging Face Space card and Space README are the short judge-facing narrative (problem → environment → reward → verification). If the hackathon form asks for a separate link, add a public under-2-minute video or slide deck URL there.
 - **Colab — GRPO training:** [CommitmentOS_Training.ipynb](https://colab.research.google.com/github/Jayant2304/commitment_os/blob/main/training/CommitmentOS_Training.ipynb)
 - **Colab — LLM checkpoint eval** (base vs LoRA): [CommitmentOS_Checkpoint_Eval_Colab.ipynb](https://colab.research.google.com/github/Jayant2304/commitment_os/blob/main/evaluation/CommitmentOS_Checkpoint_Eval_Colab.ipynb)
 - **Deterministic eval artifacts:** [artifacts/evals/README.md](artifacts/evals/README.md)
 - **LLM eval artifact layout:** [artifacts/evals_llm/README.md](artifacts/evals_llm/README.md)
 - **Pretrained bundle (Drive):** [commitment_os_bundle](https://drive.google.com/drive/folders/1yexZBSqyH7gWlTzYN5DlX3tXfPMmeVAK?usp=sharing)
+
+## Judge quick verify (≈3 minutes)
+
+1. **Live API:** open the Hugging Face Space and run the curl examples on the card (`/health`, `POST /reset?task_id=easy_001`, `POST /step`, `GET /state`).
+2. **Training curves in git:** `artifacts/loss_curve.png`, `artifacts/reward_curve.png`, plus `artifacts/training_metrics.json` / `training_summary.csv` (same run as the Colab training notebook).
+3. **Deterministic benchmark:** `artifacts/evals/README.md` and `artifacts/evals/summary.json` (fixed 15-task scripted rollouts).
+4. **True LLM checkpoint eval:** Colab in **Links**; protocol + traces in the Drive bundle under `artifacts/evals_llm/`; layout in `artifacts/evals_llm/README.md`.
+5. **MCP:** `POST /mcp` with JSON-RPC `tools/list` advertises `cos_episode_reset`, `cos_environment_step`, and `cos_session_snapshot` (names avoid reserved MCP/OpenEnv collisions with `reset` / `step` / `state`). HTTP control endpoints remain `POST /reset`, `POST /step`, and `GET /state`.
 
 ---
 
@@ -194,10 +203,17 @@ Numeric training logs committed under `artifacts/`:
 
 - `artifacts/training_metrics.json` — per-step loss, reward, etc.
 - `artifacts/training_summary.csv` — tabular summary
+- `artifacts/loss_curve.png` and `artifacts/reward_curve.png` — plots exported from the same logged run (regenerate from [CommitmentOS_Training.ipynb](https://colab.research.google.com/github/Jayant2304/commitment_os/blob/main/training/CommitmentOS_Training.ipynb) or plot `training_metrics.json` locally)
 
-**Loss / reward PNG curves** are not stored in git (generated in Colab). Open [CommitmentOS_Training.ipynb](https://colab.research.google.com/github/Jayant2304/commitment_os/blob/main/training/CommitmentOS_Training.ipynb) and run the plotting cell after training, or plot from `training_metrics.json` locally.
+![Training loss (GRPO)](artifacts/loss_curve.png)
 
-The logged run shows non-trivial reward movement (peaks ~0.69) and confirms the training loop runs end-to-end against the environment (not a static dataset baseline).
+*Training loss — GRPO on `Qwen/Qwen2.5-1.5B-Instruct` (Colab run, metrics in `training_metrics.json`).*
+
+![Training reward (GRPO)](artifacts/reward_curve.png)
+
+*Mean episode reward during the same run (peaks ~0.69).*
+
+The logged run shows non-trivial reward movement and confirms the training loop runs end-to-end against the environment (not a static dataset baseline).
 
 ---
 
