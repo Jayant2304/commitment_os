@@ -1,0 +1,82 @@
+spec_version: 1
+name: commitment-os
+description: >
+  CommitmentOS: the first RL environment that trains temporal commitment
+  coherence in LLMs. Multi-turn episodes where agents manage calendar,
+  email, and dining across scenarios where their own decisions create
+  binding constraints tracked via a commitment ledger.
+author: Jayant Aggarwal
+version: 0.1.0
+
+action_model: CommitmentAction
+observation_model: CommitmentObservation
+state_model: CommitmentState
+
+endpoints:
+  reset: POST /reset
+  step: POST /step
+  state: GET /state
+  health: GET /health
+  metadata: GET /metadata
+  schema: GET /schema
+  mcp: POST /mcp
+
+tasks:
+  - name: easy_001
+    difficulty: easy
+    description: Resolve double-booked meetings by priority and notify team
+  - name: easy_002
+    difficulty: easy
+    description: Book dinner with cuisine, price, and distance constraints
+  - name: easy_003
+    difficulty: easy
+    description: Check availability and propose meeting slots to client via email
+  - name: easy_004
+    difficulty: easy
+    description: Cancel conflicting work meeting for personal appointment and notify
+  - name: easy_005
+    difficulty: easy
+    description: Triage inbox by urgency and respond to critical emails first
+  - name: med_006
+    difficulty: medium
+    description: Resolve cascading reschedule chain across 3 dependent meetings
+  - name: med_007
+    difficulty: medium
+    description: Plan team dinner with 3 dietary restrictions and multi-constraint search
+  - name: med_008
+    difficulty: medium
+    description: Handle urgent boss request while in a client call without abandoning commitments
+  - name: med_009
+    difficulty: medium
+    description: Disambiguate vague reschedule request across 3 recurring meetings
+  - name: med_010
+    difficulty: medium
+    description: Plan client visit with conference room, lunch, and itinerary dependencies
+  - name: hard_011
+    difficulty: hard
+    description: VP investor dinner with calendar cascade, restaurant constraints, and multi-party notifications
+  - name: hard_012
+    difficulty: hard
+    description: Resolve triple conference room conflict with diplomatic priority-based emails
+  - name: hard_013
+    difficulty: hard
+    description: Triple crisis recovery — cancelled flight, moved board prep, lost restaurant
+  - name: hard_014
+    difficulty: hard
+    description: Navigate information asymmetry — schedule meeting without revealing confidential constraints
+  - name: hard_015
+    difficulty: hard
+    description: Production incident interrupts day of commitments — triage, renegotiate, notify all parties
+
+observation_space:
+  description: >
+    Current scenario context including calendar snapshot, inbox messages,
+    tool call results, commitment count, step number, reward breakdown,
+    and grader feedback.
+
+action_space:
+  description: >
+    Single tool invocation per step. Agent selects action_type (view_calendar,
+    check_availability, search_restaurants, schedule_meeting, reschedule_event,
+    cancel_event, send_email, book_restaurant, submit_plan) and fills relevant
+    parameters. Episodes are multi-turn with 2-15 steps per scenario.
