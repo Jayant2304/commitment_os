@@ -1,0 +1,11 @@
+{
+  "task_set": "easy_001..hard_015",
+  "seed": 42,
+  "max_steps": 12,
+  "decode_config": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_new_tokens": 256
+  },
+  "action_parser": "CommitmentAction pydantic schema"
+}

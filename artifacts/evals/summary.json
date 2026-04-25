@@ -1,0 +1,47 @@
+{
+  "task_count": 15,
+  "baseline_mean_reward": 0.5427,
+  "improved_mean_reward": 0.9777,
+  "mean_reward_delta": 0.435,
+  "median_reward_delta": 0.42,
+  "baseline_success_rate": 0.3333,
+  "improved_success_rate": 1,
+  "success_rate_delta": 0.6667,
+  "baseline_mean_violations": 0,
+  "improved_mean_violations": 0,
+  "violation_delta": 0,
+  "baseline_mean_steps": 1,
+  "improved_mean_steps": 3.5333,
+  "step_delta": 2.5333,
+  "tasks_with_positive_reward_delta": 15,
+  "tasks_with_no_reward_delta": 0,
+  "per_difficulty": {
+    "easy": {
+      "count": 5,
+      "baseline_mean_reward": 0.4967,
+      "improved_mean_reward": 0.9687,
+      "reward_delta": 0.472,
+      "baseline_mean_steps": 1,
+      "improved_mean_steps": 2.6,
+      "step_delta": 1.6
+    },
+    "medium": {
+      "count": 5,
+      "baseline_mean_reward": 0.5992,
+      "improved_mean_reward": 0.9745,
+      "reward_delta": 0.3753,
+      "baseline_mean_steps": 1,
+      "improved_mean_steps": 3,
+      "step_delta": 2
+    },
+    "hard": {
+      "count": 5,
+      "baseline_mean_reward": 0.5323,
+      "improved_mean_reward": 0.99,
+      "reward_delta": 0.4577,
+      "baseline_mean_steps": 1,
+      "improved_mean_steps": 5,
+      "step_delta": 4
+    }
+  }
+}

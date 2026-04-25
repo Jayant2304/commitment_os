@@ -1,0 +1,1491 @@
+[
+  {
+    "task_id": "easy_001",
+    "difficulty": "easy",
+    "final_reward": 0.99,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.35,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.15,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 3/3 constraints met | [conflicts] No calendar conflicts | [commitments] 1 honored | [communication] Email to Team: full credit | [efficiency] 3 steps (optimal: 3)",
+    "steps_used": 3,
+    "commitment_count": 1,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "metadata": {},
+          "action_type": "reschedule_event",
+          "date": "",
+          "event_id": "evt_2",
+          "new_time": "15:00",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "",
+          "subject": "",
+          "body": ""
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Rescheduled [evt_2] 'Team Standup' from 14:00 to 15:00."
+      },
+      {
+        "step": 2,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "Team",
+          "subject": "Standup rescheduled",
+          "body": "Hi team, rescheduling standup to 3:00 PM to avoid conflict with VP 1-on-1."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to Team: 'Standup rescheduled'"
+      },
+      {
+        "step": 3,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.99,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "easy_002",
+    "difficulty": "easy",
+    "final_reward": 0.8833,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.2333,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.15,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 2/3 constraints met | [conflicts] No calendar conflicts | [commitments] 1 honored | [communication] No communication requirements | [efficiency] 2 steps (optimal: 2)",
+    "steps_used": 2,
+    "commitment_count": 1,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "metadata": {},
+          "action_type": "book_restaurant",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "Bella Italia",
+          "to": "",
+          "subject": "",
+          "body": ""
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Reservation confirmed at Bella Italia."
+      },
+      {
+        "step": 2,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.8833,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "easy_003",
+    "difficulty": "easy",
+    "final_reward": 0.99,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.35,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.15,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 1/1 constraints met | [conflicts] No calendar conflicts | [commitments] No commitments created | [communication] Email to Client_Jones: full credit | [efficiency] 2 steps (optimal: 3)",
+    "steps_used": 2,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "Client_Jones",
+          "subject": "Available meeting slots",
+          "body": "Available slots on 2026-04-25: 09:00, 11:00, and 16:00. Please choose one."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to Client_Jones: 'Available meeting slots'"
+      },
+      {
+        "step": 2,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.99,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "easy_004",
+    "difficulty": "easy",
+    "final_reward": 0.99,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.35,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.15,
+      "step_efficiency": 0.09
+    },
+    "feedback": "[constraints] 3/3 constraints met | [conflicts] No calendar conflicts | [commitments] No commitments created | [communication] Email to Team: full credit | [efficiency] 3 steps (optimal: 2, penalty: -0.1)",
+    "steps_used": 3,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "metadata": {},
+          "action_type": "cancel_event",
+          "date": "",
+          "event_id": "evt_30",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "",
+          "subject": "",
+          "body": ""
+        },
+        "reward": 0.0,
+        "done": false,
+        "tool_result": "Cancelled [evt_30] 'Weekly Team Sync' at 15:00 on 2026-04-25."
+      },
+      {
+        "step": 2,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "Team",
+          "subject": "Weekly sync cancelled",
+          "body": "Sorry team, cancelling today's sync due to a personal appointment conflict."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to Team: 'Weekly sync cancelled'"
+      },
+      {
+        "step": 3,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.99,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "easy_005",
+    "difficulty": "easy",
+    "final_reward": 0.99,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.35,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.15,
+      "step_efficiency": 0.09
+    },
+    "feedback": "[constraints] 2/2 constraints met | [conflicts] No calendar conflicts | [commitments] No commitments created | [communication] Email to VP_Chen: full credit | Email to Client_Jones: full credit | [efficiency] 3 steps (optimal: 2, penalty: -0.1)",
+    "steps_used": 3,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "VP_Chen",
+          "subject": "Q3 board numbers",
+          "body": "Sharing Q3 numbers for board deck. I will send the full table shortly."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to VP_Chen: 'Q3 board numbers'"
+      },
+      {
+        "step": 2,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "Client_Jones",
+          "subject": "Contract review update",
+          "body": "I reviewed the contract and will send comments by end of day."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to Client_Jones: 'Contract review update'"
+      },
+      {
+        "step": 3,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.99,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "hard_011",
+    "difficulty": "hard",
+    "final_reward": 0.99,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.35,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.15,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 6/6 constraints met | [conflicts] No calendar conflicts | [commitments] 1 honored | [communication] Email to Team: full credit | Email to VP_Chen: full credit | [efficiency] 5 steps (optimal: 7)",
+    "steps_used": 5,
+    "commitment_count": 1,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "metadata": {},
+          "action_type": "cancel_event",
+          "date": "",
+          "event_id": "evt_90",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "",
+          "subject": "",
+          "body": ""
+        },
+        "reward": 0.0,
+        "done": false,
+        "tool_result": "Cancelled [evt_90] 'Yoga' at 18:00 on 2026-04-25."
+      },
+      {
+        "step": 2,
+        "action": {
+          "metadata": {},
+          "action_type": "book_restaurant",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "Sky Lounge",
+          "to": "",
+          "subject": "",
+          "body": ""
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Reservation confirmed at Sky Lounge."
+      },
+      {
+        "step": 3,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "Team",
+          "subject": "Happy hour reschedule",
+          "body": "Sorry team, rescheduling happy hour due to urgent investor dinner tonight."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to Team: 'Happy hour reschedule'"
+      },
+      {
+        "step": 4,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "VP_Chen",
+          "subject": "Investor dinner booked",
+          "body": "Booked Sky Lounge near airport with vegetarian options for Investor_Park."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to VP_Chen: 'Investor dinner booked'"
+      },
+      {
+        "step": 5,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.99,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "hard_012",
+    "difficulty": "hard",
+    "final_reward": 0.99,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.35,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.15,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 4/4 constraints met | [conflicts] No calendar conflicts | [commitments] 2 honored | [communication] Email to VP_Lee: full credit | Email to VP_Kumar: full credit | [efficiency] 5 steps (optimal: 6)",
+    "steps_used": 5,
+    "commitment_count": 2,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "metadata": {},
+          "action_type": "reschedule_event",
+          "date": "",
+          "event_id": "evt_101",
+          "new_time": "15:00",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "",
+          "subject": "",
+          "body": ""
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Rescheduled [evt_101] 'Client Demo' from 14:00 to 15:00."
+      },
+      {
+        "step": 2,
+        "action": {
+          "metadata": {},
+          "action_type": "reschedule_event",
+          "date": "",
+          "event_id": "evt_102",
+          "new_time": "16:00",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "",
+          "subject": "",
+          "body": ""
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Rescheduled [evt_102] 'Team Retro' from 14:00 to 16:00."
+      },
+      {
+        "step": 3,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "VP_Lee",
+          "subject": "Room conflict update",
+          "body": "Moving your client demo to 3:00 PM due to Alpha room prioritization."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to VP_Lee: 'Room conflict update'"
+      },
+      {
+        "step": 4,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "VP_Kumar",
+          "subject": "Room conflict update",
+          "body": "Moving your team retro to 4:00 PM due to board prep priority in Alpha."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to VP_Kumar: 'Room conflict update'"
+      },
+      {
+        "step": 5,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.99,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "hard_013",
+    "difficulty": "hard",
+    "final_reward": 0.99,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.35,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.15,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 4/4 constraints met | [conflicts] No calendar conflicts | [commitments] 2 honored | 1 renegotiated | [communication] Email to Client_Jones: full credit | Email to VP_Chen: full credit | [efficiency] 6 steps (optimal: 8)",
+    "steps_used": 6,
+    "commitment_count": 3,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "metadata": {},
+          "action_type": "reschedule_event",
+          "date": "",
+          "event_id": "evt_111",
+          "new_time": "14:00",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "",
+          "subject": "",
+          "body": ""
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Rescheduled [evt_111] 'Board Prep' from 16:00 to 14:00."
+      },
+      {
+        "step": 2,
+        "action": {
+          "metadata": {},
+          "action_type": "reschedule_event",
+          "date": "",
+          "event_id": "evt_112",
+          "new_time": "11:00",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "",
+          "subject": "",
+          "body": ""
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Rescheduled [evt_112] 'Lunch with Client_Jones' from 12:00 to 11:00."
+      },
+      {
+        "step": 3,
+        "action": {
+          "metadata": {},
+          "action_type": "book_restaurant",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "Sakura Garden",
+          "to": "",
+          "subject": "",
+          "body": ""
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Reservation confirmed at Sakura Garden."
+      },
+      {
+        "step": 4,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "Client_Jones",
+          "subject": "Lunch moved",
+          "body": "Sorry, moving lunch to 11:00 due to board prep schedule changes."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to Client_Jones: 'Lunch moved'"
+      },
+      {
+        "step": 5,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "VP_Chen",
+          "subject": "Board prep confirmed",
+          "body": "Confirmed board prep at 2 PM tomorrow."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to VP_Chen: 'Board prep confirmed'"
+      },
+      {
+        "step": 6,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.99,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "hard_014",
+    "difficulty": "hard",
+    "final_reward": 0.99,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.35,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.15,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 3/3 constraints met | [conflicts] No calendar conflicts | [commitments] 1 honored | [communication] Email to VP_Chen: full credit | Email to Client_Jones: full credit | [efficiency] 4 steps (optimal: 5)",
+    "steps_used": 4,
+    "commitment_count": 1,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "metadata": {},
+          "action_type": "schedule_meeting",
+          "date": "2026-04-24",
+          "event_id": "",
+          "new_time": "",
+          "title": "Client_Jones sync with VP_Chen",
+          "participants": [
+            "Client_Jones",
+            "VP_Chen"
+          ],
+          "time": "15:00",
+          "duration_min": 30,
+          "location": "Room C",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "",
+          "subject": "",
+          "body": ""
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Meeting scheduled: [evt_100] 2026-04-24 15:00 \u2014 Client_Jones sync with VP_Chen"
+      },
+      {
+        "step": 2,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "VP_Chen",
+          "subject": "Proposed slots",
+          "body": "Client_Jones is available Thursday/Friday. Scheduled Thursday 3:00 PM."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to VP_Chen: 'Proposed slots'"
+      },
+      {
+        "step": 3,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "Client_Jones",
+          "subject": "Meeting confirmation",
+          "body": "Confirmed meeting Thursday at 3:00 PM with VP_Chen."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to Client_Jones: 'Meeting confirmation'"
+      },
+      {
+        "step": 4,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.99,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "hard_015",
+    "difficulty": "hard",
+    "final_reward": 0.99,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.35,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.15,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 5/5 constraints met | [conflicts] No calendar conflicts | [commitments] No commitments created | [communication] Email to Team: full credit | Email to Client_Jones: full credit | Email to VP_Chen: full credit | [efficiency] 5 steps (optimal: 8)",
+    "steps_used": 5,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "metadata": {},
+          "action_type": "cancel_event",
+          "date": "",
+          "event_id": "evt_130",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "",
+          "subject": "",
+          "body": ""
+        },
+        "reward": 0.0,
+        "done": false,
+        "tool_result": "Cancelled [evt_130] 'Team Lunch' at 12:00 on 2026-04-25."
+      },
+      {
+        "step": 2,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "Team",
+          "subject": "Lunch cancelled due to incident",
+          "body": "Cancelling lunch due to production incident in payment service (503 errors)."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to Team: 'Lunch cancelled due to incident'"
+      },
+      {
+        "step": 3,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "Client_Jones",
+          "subject": "Demo reschedule request",
+          "body": "Apologies, need to reschedule demo due to production incident response."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to Client_Jones: 'Demo reschedule request'"
+      },
+      {
+        "step": 4,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "VP_Chen",
+          "subject": "Incident update and 1-on-1",
+          "body": "On-call for payment incident; may need to reschedule 1-on-1 depending on mitigation time."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to VP_Chen: 'Incident update and 1-on-1'"
+      },
+      {
+        "step": 5,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.99,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "med_006",
+    "difficulty": "medium",
+    "final_reward": 0.99,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.35,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.15,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 4/4 constraints met | [conflicts] No calendar conflicts | [commitments] 1 renegotiated | [communication] Email to Team: full credit | [efficiency] 4 steps (optimal: 4)",
+    "steps_used": 4,
+    "commitment_count": 1,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "metadata": {},
+          "action_type": "reschedule_event",
+          "date": "",
+          "event_id": "evt_40",
+          "new_time": "15:00",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "",
+          "subject": "",
+          "body": ""
+        },
+        "reward": -0.05,
+        "done": false,
+        "tool_result": "CONFLICT: moving 'Design Review' to 15:00 would overlap with 'Sprint Planning' at 15:00."
+      },
+      {
+        "step": 2,
+        "action": {
+          "metadata": {},
+          "action_type": "reschedule_event",
+          "date": "",
+          "event_id": "evt_41",
+          "new_time": "13:00",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "",
+          "subject": "",
+          "body": ""
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Rescheduled [evt_41] 'Sprint Planning' from 15:00 to 13:00."
+      },
+      {
+        "step": 3,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "Team",
+          "subject": "Sprint planning rescheduled",
+          "body": "Sprint planning moved to 1:00 PM due to cascading schedule changes."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to Team: 'Sprint planning rescheduled'"
+      },
+      {
+        "step": 4,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.99,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "med_007",
+    "difficulty": "medium",
+    "final_reward": 0.9125,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.2625,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.15,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 3/4 constraints met | [conflicts] No calendar conflicts | [commitments] 1 honored | [communication] Email to Team: full credit | [efficiency] 3 steps (optimal: 3)",
+    "steps_used": 3,
+    "commitment_count": 1,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "metadata": {},
+          "action_type": "book_restaurant",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "Green Garden",
+          "to": "",
+          "subject": "",
+          "body": ""
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Reservation confirmed at Green Garden."
+      },
+      {
+        "step": 2,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "Team",
+          "subject": "Dinner reservation confirmed",
+          "body": "Booked Green Garden for tonight. Vegan and nut-free options available."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to Team: 'Dinner reservation confirmed'"
+      },
+      {
+        "step": 3,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.9125,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "med_008",
+    "difficulty": "medium",
+    "final_reward": 0.99,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.35,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.15,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 3/3 constraints met | [conflicts] No calendar conflicts | [commitments] No commitments created | [communication] Email to VP_Chen: full credit | [efficiency] 2 steps (optimal: 2)",
+    "steps_used": 2,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "VP_Chen",
+          "subject": "Q3 numbers ETA",
+          "body": "I am currently in a client call until 3:15 PM. I will send Q3 numbers right after the call."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to VP_Chen: 'Q3 numbers ETA'"
+      },
+      {
+        "step": 2,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.99,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "med_009",
+    "difficulty": "medium",
+    "final_reward": 0.99,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.35,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.15,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 1/1 constraints met | [conflicts] No calendar conflicts | [commitments] No commitments created | [communication] Email to Bob: full credit | [efficiency] 2 steps (optimal: 4)",
+    "steps_used": 2,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "Bob",
+          "subject": "Retrospective moved to next week",
+          "body": "Let's reschedule the retrospective to next week. Thursday works for me."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to Bob: 'Retrospective moved to next week'"
+      },
+      {
+        "step": 2,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.99,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "med_010",
+    "difficulty": "medium",
+    "final_reward": 0.99,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.35,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.15,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 3/3 constraints met | [conflicts] No calendar conflicts | [commitments] 2 honored | [communication] Email to Client_Jones: full credit | [efficiency] 4 steps (optimal: 4)",
+    "steps_used": 4,
+    "commitment_count": 2,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "metadata": {},
+          "action_type": "schedule_meeting",
+          "date": "2026-04-26",
+          "event_id": "",
+          "new_time": "",
+          "title": "Client Demo",
+          "participants": [
+            "Client_Jones"
+          ],
+          "time": "10:00",
+          "duration_min": 60,
+          "location": "Room A",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "",
+          "subject": "",
+          "body": ""
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Meeting scheduled: [evt_100] 2026-04-26 10:00 \u2014 Client Demo"
+      },
+      {
+        "step": 2,
+        "action": {
+          "metadata": {},
+          "action_type": "book_restaurant",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "Garden Bistro",
+          "to": "",
+          "subject": "",
+          "body": ""
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Reservation confirmed at Garden Bistro."
+      },
+      {
+        "step": 3,
+        "action": {
+          "metadata": {},
+          "action_type": "send_email",
+          "date": "",
+          "event_id": "",
+          "new_time": "",
+          "title": "",
+          "participants": [],
+          "time": "",
+          "duration_min": 60,
+          "location": "",
+          "person": "",
+          "cuisine": "",
+          "max_price": 0,
+          "dietary": "",
+          "max_distance_miles": 0.0,
+          "near_airport": false,
+          "restaurant_name": "",
+          "to": "Client_Jones",
+          "subject": "Visit itinerary",
+          "body": "Itinerary: 10am demo in Room A, then vegetarian lunch at Garden Bistro."
+        },
+        "reward": 0.05,
+        "done": false,
+        "tool_result": "Email sent to Client_Jones: 'Visit itinerary'"
+      },
+      {
+        "step": 4,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.99,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  }
+]

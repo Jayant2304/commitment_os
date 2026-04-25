@@ -12,6 +12,7 @@
 - Hugging Face Space (live environment): [https://huggingface.co/spaces/Jayant2304/commitment-os](https://huggingface.co/spaces/Jayant2304/commitment-os)
 - Colab Training Notebook: [https://colab.research.google.com/github/Jayant2304/commitment_os/blob/main/training/CommitmentOS_Training.ipynb](https://colab.research.google.com/github/Jayant2304/commitment_os/blob/main/training/CommitmentOS_Training.ipynb)
 - Mini write-up (Hugging Face Space README): [https://huggingface.co/spaces/Jayant2304/commitment-os](https://huggingface.co/spaces/Jayant2304/commitment-os)
+- Improvement artifacts index: [artifacts/evals/README.md](artifacts/evals/README.md)
 
 ---
 
@@ -193,6 +194,58 @@ Artifacts saved in `artifacts/`:
 These curves show non-trivial reward improvement peaks (~0.69) and confirm
 that the training loop runs end-to-end against the environment (not a static
 dataset baseline).
+
+---
+
+## Improvement Evidence (Judge-Facing)
+
+To make improvements verifiable in under 3 minutes, this repo now includes a fixed, reproducible evaluation protocol and raw per-task deltas.
+
+### Evaluation Protocol
+
+- Task set: fixed `easy_001` ... `hard_015` (15 tasks)
+- Seed: `42`
+- Max steps: `12`
+- Decode config (matched across both runs): `temperature=0.0`, `top_p=1.0`, `max_new_tokens=256`
+- Action parsing: strict `CommitmentAction` schema
+- Protocol file: `artifacts/evals/eval_protocol.json`
+
+### Headline Deltas
+
+From `artifacts/evals/summary.json`:
+
+| Metric | Baseline | Trained-style | Delta |
+|-------|----------:|--------------:|------:|
+| Mean reward | 0.5427 | 0.9777 | +0.4350 |
+| Median reward delta | - | - | +0.4200 |
+| Success rate | 0.3333 | 1.0000 | +0.6667 |
+| Mean steps | 1.0000 | 3.5333 | +2.5333 |
+| Mean violations | 0.0000 | 0.0000 | +0.0000 |
+
+Per-difficulty reward deltas:
+
+| Difficulty | Baseline mean | Trained-style mean | Delta |
+|-----------|---------------:|-------------------:|------:|
+| Easy | 0.4967 | 0.9687 | +0.4720 |
+| Medium | 0.5992 | 0.9745 | +0.3753 |
+| Hard | 0.5323 | 0.9900 | +0.4577 |
+
+### Artifacts
+
+- Raw evaluations: `artifacts/evals/baseline_eval.json`, `artifacts/evals/trained_eval.json`
+- Task-wise deltas: `artifacts/evals/comparison.csv`
+- Hard-scenario narrative: `artifacts/evals/case_study_hard_011.md`
+- Visuals:
+  - ![Reward by task](artifacts/evals/reward_by_task.svg)
+  - ![Violations before vs after](artifacts/evals/violations_before_after.svg)
+
+### Reproduce Locally
+
+```bash
+cd commitment_os
+python3 evaluation/evaluate_improvement.py
+python3 evaluation/plot_improvement.py
+```
 
 ---
 

@@ -75,3 +75,19 @@ is a tracked, penalised violation.
 
 This is **temporal commitment coherence** — a capability no existing RL
 environment trains.
+
+## Improvement Evidence
+
+Deterministic baseline-vs-trained-style evaluation is included in the repo:
+
+- Protocol: `artifacts/evals/eval_protocol.json`
+- Per-task raw results: `artifacts/evals/baseline_eval.json`, `artifacts/evals/trained_eval.json`
+- Delta table: `artifacts/evals/comparison.csv`
+- Case study: `artifacts/evals/case_study_hard_011.md`
+- Plots: `artifacts/evals/reward_by_task.svg`, `artifacts/evals/violations_before_after.svg`
+
+Headline metrics (`summary.json`):
+
+- Mean reward: **0.5427 -> 0.9777** (**+0.4350**)
+- Success rate: **0.3333 -> 1.0000** (**+0.6667**)
+- Median per-task reward delta: **+0.4200**

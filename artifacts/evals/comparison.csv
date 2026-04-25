@@ -1,0 +1,16 @@
+task_id,difficulty,baseline_reward,improved_reward,reward_delta,baseline_steps,improved_steps,step_delta,baseline_violations,improved_violations,violation_delta,baseline_success,improved_success
+easy_001,easy,0.4167,0.99,0.5733,1,3,2,0,0,0,0,1
+easy_002,easy,0.65,0.8833,0.2333,1,2,1,0,0,0,1,1
+easy_003,easy,0.5,0.99,0.49,1,2,1,0,0,0,0,1
+easy_004,easy,0.4167,0.99,0.5733,1,3,2,0,0,0,0,1
+easy_005,easy,0.5,0.99,0.49,1,3,2,0,0,0,0,1
+hard_011,hard,0.5,0.99,0.49,1,5,4,0,0,0,0,1
+hard_012,hard,0.3875,0.99,0.6025,1,5,4,0,0,0,0,1
+hard_013,hard,0.5875,0.99,0.4025,1,6,5,0,0,0,0,1
+hard_014,hard,0.6167,0.99,0.3733,1,4,3,0,0,0,1,1
+hard_015,hard,0.57,0.99,0.42,1,5,4,0,0,0,0,1
+med_006,medium,0.7625,0.99,0.2275,1,4,3,0,0,0,1,1
+med_007,medium,0.5,0.9125,0.4125,1,3,2,0,0,0,0,1
+med_008,medium,0.6167,0.99,0.3733,1,2,1,0,0,0,1,1
+med_009,medium,0.5,0.99,0.49,1,2,1,0,0,0,0,1
+med_010,medium,0.6167,0.99,0.3733,1,4,3,0,0,0,1,1

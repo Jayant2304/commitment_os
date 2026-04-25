@@ -1,0 +1,422 @@
+[
+  {
+    "task_id": "easy_001",
+    "difficulty": "easy",
+    "final_reward": 0.4167,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.1167,
+      "conflict_resolution": 0.0,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.0,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 1/3 constraints met | [conflicts] Calendar has overlapping events | [commitments] No commitments created | [communication] MISSING email to Team | [efficiency] 1 steps (optimal: 3)",
+    "steps_used": 1,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": false,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.4167,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "easy_002",
+    "difficulty": "easy",
+    "final_reward": 0.65,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.0,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.15,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 0/3 constraints met | [conflicts] No calendar conflicts | [commitments] No commitments created | [communication] No communication requirements | [efficiency] 1 steps (optimal: 2)",
+    "steps_used": 1,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.65,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "easy_003",
+    "difficulty": "easy",
+    "final_reward": 0.5,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.0,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.0,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 0/1 constraints met | [conflicts] No calendar conflicts | [commitments] No commitments created | [communication] MISSING email to Client_Jones | [efficiency] 1 steps (optimal: 3)",
+    "steps_used": 1,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": false,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.5,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "easy_004",
+    "difficulty": "easy",
+    "final_reward": 0.4167,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.1167,
+      "conflict_resolution": 0.0,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.0,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 1/3 constraints met | [conflicts] Calendar has overlapping events | [commitments] No commitments created | [communication] MISSING email to Team | [efficiency] 1 steps (optimal: 2)",
+    "steps_used": 1,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": false,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.4167,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "easy_005",
+    "difficulty": "easy",
+    "final_reward": 0.5,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.0,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.0,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 0/2 constraints met | [conflicts] No calendar conflicts | [commitments] No commitments created | [communication] MISSING email to VP_Chen | MISSING email to Client_Jones | [efficiency] 1 steps (optimal: 2)",
+    "steps_used": 1,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": false,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.5,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "hard_011",
+    "difficulty": "hard",
+    "final_reward": 0.5,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.0,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.0,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 0/6 constraints met | [conflicts] No calendar conflicts | [commitments] No commitments created | [communication] MISSING email to Team | MISSING email to VP_Chen | [efficiency] 1 steps (optimal: 7)",
+    "steps_used": 1,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": false,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.5,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "hard_012",
+    "difficulty": "hard",
+    "final_reward": 0.3875,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.0875,
+      "conflict_resolution": 0.0,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.0,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 1/4 constraints met | [conflicts] Calendar has overlapping events | [commitments] No commitments created | [communication] MISSING email to VP_Lee | MISSING email to VP_Kumar | [efficiency] 1 steps (optimal: 6)",
+    "steps_used": 1,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": false,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.3875,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "hard_013",
+    "difficulty": "hard",
+    "final_reward": 0.5875,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.0875,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.0,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 1/4 constraints met | [conflicts] No calendar conflicts | [commitments] No commitments created | [communication] MISSING email to Client_Jones | MISSING email to VP_Chen | [efficiency] 1 steps (optimal: 8)",
+    "steps_used": 1,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": false,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.5875,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "hard_014",
+    "difficulty": "hard",
+    "final_reward": 0.6167,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.1167,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.0,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 1/3 constraints met | [conflicts] No calendar conflicts | [commitments] No commitments created | [communication] MISSING email to VP_Chen | MISSING email to Client_Jones | [efficiency] 1 steps (optimal: 5)",
+    "steps_used": 1,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.6167,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "hard_015",
+    "difficulty": "hard",
+    "final_reward": 0.57,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.07,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.0,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 1/5 constraints met | [conflicts] No calendar conflicts | [commitments] No commitments created | [communication] MISSING email to Team | MISSING email to Client_Jones | MISSING email to VP_Chen | [efficiency] 1 steps (optimal: 8)",
+    "steps_used": 1,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": false,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.57,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "med_006",
+    "difficulty": "medium",
+    "final_reward": 0.7625,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.2625,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.0,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 3/4 constraints met | [conflicts] No calendar conflicts | [commitments] No commitments created | [communication] MISSING email to Team | [efficiency] 1 steps (optimal: 4)",
+    "steps_used": 1,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.7625,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "med_007",
+    "difficulty": "medium",
+    "final_reward": 0.5,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.0,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.0,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 0/4 constraints met | [conflicts] No calendar conflicts | [commitments] No commitments created | [communication] MISSING email to Team | [efficiency] 1 steps (optimal: 3)",
+    "steps_used": 1,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": false,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.5,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "med_008",
+    "difficulty": "medium",
+    "final_reward": 0.6167,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.1167,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.0,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 1/3 constraints met | [conflicts] No calendar conflicts | [commitments] No commitments created | [communication] MISSING email to VP_Chen | [efficiency] 1 steps (optimal: 2)",
+    "steps_used": 1,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.6167,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "med_009",
+    "difficulty": "medium",
+    "final_reward": 0.5,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.0,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.0,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 0/1 constraints met | [conflicts] No calendar conflicts | [commitments] No commitments created | [communication] MISSING email to Bob | [efficiency] 1 steps (optimal: 4)",
+    "steps_used": 1,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": false,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.5,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  },
+  {
+    "task_id": "med_010",
+    "difficulty": "medium",
+    "final_reward": 0.6167,
+    "reward_breakdown": {
+      "constraint_satisfaction": 0.1167,
+      "conflict_resolution": 0.2,
+      "commitment_coherence": 0.2,
+      "communication_quality": 0.0,
+      "step_efficiency": 0.1
+    },
+    "feedback": "[constraints] 1/3 constraints met | [conflicts] No calendar conflicts | [commitments] No commitments created | [communication] MISSING email to Client_Jones | [efficiency] 1 steps (optimal: 4)",
+    "steps_used": 1,
+    "commitment_count": 0,
+    "violation_count": 0,
+    "success": true,
+    "trace": [
+      {
+        "step": 1,
+        "action": {
+          "action_type": "submit_plan"
+        },
+        "reward": 0.6167,
+        "done": true,
+        "tool_result": "Plan submitted. Episode graded."
+      }
+    ]
+  }
+]
