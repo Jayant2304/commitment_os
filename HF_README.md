@@ -91,3 +91,13 @@ Headline metrics (`summary.json`):
 - Mean reward: **0.5427 -> 0.9777** (**+0.4350**)
 - Success rate: **0.3333 -> 1.0000** (**+0.6667**)
 - Median per-task reward delta: **+0.4200**
+
+For true model-learning proof (pre-RL checkpoint vs post-RL checkpoint),
+run:
+
+```bash
+python3 evaluation/evaluate_llm_checkpoints.py
+python3 evaluation/plot_llm_checkpoints.py
+```
+
+Artifacts are written to `artifacts/evals_llm/`.

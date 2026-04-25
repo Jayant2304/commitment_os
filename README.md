@@ -199,9 +199,11 @@ dataset baseline).
 
 ## Improvement Evidence (Judge-Facing)
 
-To make improvements verifiable in under 3 minutes, this repo now includes a fixed, reproducible evaluation protocol and raw per-task deltas.
+To make improvements verifiable in under 3 minutes, this repo now includes:
+- a deterministic scripted-policy sanity benchmark, and
+- a true pre-RL vs post-RL checkpoint evaluation pipeline.
 
-### Evaluation Protocol
+### A) Deterministic Scripted-Policy Benchmark
 
 - Task set: fixed `easy_001` ... `hard_015` (15 tasks)
 - Seed: `42`
@@ -210,7 +212,7 @@ To make improvements verifiable in under 3 minutes, this repo now includes a fix
 - Action parsing: strict `CommitmentAction` schema
 - Protocol file: `artifacts/evals/eval_protocol.json`
 
-### Headline Deltas
+### Scripted Benchmark Deltas
 
 From `artifacts/evals/summary.json`:
 
@@ -230,7 +232,7 @@ Per-difficulty reward deltas:
 | Medium | 0.5992 | 0.9745 | +0.3753 |
 | Hard | 0.5323 | 0.9900 | +0.4577 |
 
-### Artifacts
+### Scripted Benchmark Artifacts
 
 - Raw evaluations: `artifacts/evals/baseline_eval.json`, `artifacts/evals/trained_eval.json`
 - Task-wise deltas: `artifacts/evals/comparison.csv`
@@ -246,6 +248,30 @@ cd commitment_os
 python3 evaluation/evaluate_improvement.py
 python3 evaluation/plot_improvement.py
 ```
+
+### B) True LLM Learning Eval (Pre-RL vs Post-RL)
+
+For actual learning proof, run the same protocol on two checkpoints:
+- baseline model (`BASELINE_MODEL_NAME`)
+- RL-trained checkpoint (`TRAINED_MODEL_NAME`)
+
+Both runs use identical seed, decode settings, max steps, and parser.
+
+```bash
+cd commitment_os
+python3 evaluation/evaluate_llm_checkpoints.py
+python3 evaluation/plot_llm_checkpoints.py
+```
+
+Outputs are written to `artifacts/evals_llm/`:
+- `llm_eval_protocol.json`
+- `baseline_llm_eval.json`
+- `trained_llm_eval.json`
+- `llm_comparison.csv`
+- `llm_summary.json`
+- `llm_case_study_hard_015.md`
+- `llm_reward_by_task.svg`
+- `llm_violations_before_after.svg`
 
 ---
 
