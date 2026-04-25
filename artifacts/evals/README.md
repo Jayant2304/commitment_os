@@ -2,6 +2,8 @@
 
 This folder contains deterministic baseline-vs-trained-style evaluation outputs for all 15 CommitmentOS tasks.
 
+This is **not** the same as the real LLM checkpoint comparison; see root **README** section **B) True LLM Learning Eval** and `artifacts/evals_llm/`.
+
 ## Files
 
 - `eval_protocol.json`: fixed protocol (task set, seed, max steps, decode config)

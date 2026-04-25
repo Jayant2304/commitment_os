@@ -8,11 +8,13 @@
 
 ## Links
 
-- GitHub Repository: [https://github.com/Jayant2304/commitment_os](https://github.com/Jayant2304/commitment_os)
-- Hugging Face Space (live environment): [https://huggingface.co/spaces/Jayant2304/commitment-os](https://huggingface.co/spaces/Jayant2304/commitment-os)
-- Colab Training Notebook: [https://colab.research.google.com/github/Jayant2304/commitment_os/blob/main/training/CommitmentOS_Training.ipynb](https://colab.research.google.com/github/Jayant2304/commitment_os/blob/main/training/CommitmentOS_Training.ipynb)
-- Mini write-up (Hugging Face Space README): [https://huggingface.co/spaces/Jayant2304/commitment-os](https://huggingface.co/spaces/Jayant2304/commitment-os)
-- Improvement artifacts index: [artifacts/evals/README.md](artifacts/evals/README.md)
+- **GitHub:** [Jayant2304/commitment_os](https://github.com/Jayant2304/commitment_os)
+- **Hugging Face Space** (live API + Space README): [Jayant2304/commitment-os](https://huggingface.co/spaces/Jayant2304/commitment-os)
+- **Colab — GRPO training:** [CommitmentOS_Training.ipynb](https://colab.research.google.com/github/Jayant2304/commitment_os/blob/main/training/CommitmentOS_Training.ipynb)
+- **Colab — LLM checkpoint eval** (base vs LoRA): [CommitmentOS_Checkpoint_Eval_Colab.ipynb](https://colab.research.google.com/github/Jayant2304/commitment_os/blob/main/evaluation/CommitmentOS_Checkpoint_Eval_Colab.ipynb)
+- **Deterministic eval artifacts:** [artifacts/evals/README.md](artifacts/evals/README.md)
+- **LLM eval artifact layout:** [artifacts/evals_llm/README.md](artifacts/evals_llm/README.md)
+- **Pretrained bundle (Drive):** [commitment_os_bundle](https://drive.google.com/drive/folders/1yexZBSqyH7gWlTzYN5DlX3tXfPMmeVAK?usp=sharing)
 
 ---
 
@@ -55,6 +57,10 @@ cd commitment_os
 # Create virtual environment
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
+
+# Optional: editable install + LLM checkpoint eval deps (torch, transformers, peft, …)
+# pip install -e ".[llm-eval]"
+# pip install -e ".[dev,inference]"
 
 # Start server
 uvicorn server.app:app --host 0.0.0.0 --port 7860 --reload
@@ -149,16 +155,23 @@ total = 0.99 (clamped to [0.01, 0.99])
 
 ### GRPO + TRL + LoRA
 
+`training/train_grpo.py` imports the in-repo environment; install **`openenv-core`** (not the unrelated `openenv` PyPI name).
+
 ```bash
-pip install trl transformers peft datasets torch
+pip install "openenv-core>=0.2.0" trl transformers peft datasets torch accelerate pydantic
 
 python training/train_grpo.py \
   --model Qwen/Qwen2.5-1.5B-Instruct \
   --epochs 2 \
   --lr 5e-6 \
+  --batch_size 1 \
+  --group_size 2 \
   --lora_rank 16 \
-  --batch_size 4
+  --lora_alpha 32 \
+  --output_dir ./training_output
 ```
+
+On a larger GPU you can raise `--batch_size` / `--group_size` (defaults in code are higher). Use `--push_to_hub` and `HF_TOKEN` to upload the adapter.
 
 **What improves with training:**
 - Constraint satisfaction score ↑
@@ -177,23 +190,14 @@ The following metrics are from an actual GRPO run on `Qwen/Qwen2.5-1.5B-Instruct
 - Reward range during training: **0.4021 -> 0.6896**
 - Final reward: **0.5437**
 
-Artifacts saved in `artifacts/`:
-- `artifacts/loss_curve.png`
-- `artifacts/reward_curve.png`
-- `artifacts/training_summary.csv`
-- `artifacts/training_metrics.json`
+Numeric training logs committed under `artifacts/`:
 
-#### Loss Curve
+- `artifacts/training_metrics.json` — per-step loss, reward, etc.
+- `artifacts/training_summary.csv` — tabular summary
 
-![CommitmentOS GRPO Loss vs Step](artifacts/loss_curve.png)
+**Loss / reward PNG curves** are not stored in git (generated in Colab). Open [CommitmentOS_Training.ipynb](https://colab.research.google.com/github/Jayant2304/commitment_os/blob/main/training/CommitmentOS_Training.ipynb) and run the plotting cell after training, or plot from `training_metrics.json` locally.
 
-#### Reward Curve
-
-![CommitmentOS GRPO Reward vs Step](artifacts/reward_curve.png)
-
-These curves show non-trivial reward improvement peaks (~0.69) and confirm
-that the training loop runs end-to-end against the environment (not a static
-dataset baseline).
+The logged run shows non-trivial reward movement (peaks ~0.69) and confirms the training loop runs end-to-end against the environment (not a static dataset baseline).
 
 ---
 
@@ -204,6 +208,8 @@ To make improvements verifiable in under 3 minutes, this repo now includes:
 - a true pre-RL vs post-RL checkpoint evaluation pipeline.
 
 ### A) Deterministic Scripted-Policy Benchmark
+
+This benchmark compares **fixed scripted rollouts** (baseline vs improved-style policies), **not** two different neural checkpoints. Use **section B** for real base-model vs LoRA comparisons.
 
 - Task set: fixed `easy_001` ... `hard_015` (15 tasks)
 - Seed: `42`
@@ -261,16 +267,22 @@ See `.env.example` for all variables: set **`TRAINED_MODEL_PATH`** to the direct
 
 ```bash
 cd commitment_os
-pip install transformers peft accelerate torch sentencepiece pydantic
+# Recommended (declared in pyproject.toml optional extra llm-eval):
+pip install -e ".[llm-eval]"
+# Or equivalent one-liner:
+# pip install transformers peft accelerate torch sentencepiece pydantic requests
 
 export BASELINE_MODEL_NAME=Qwen/Qwen2.5-1.5B-Instruct
 export TRAINED_MODEL_PATH=/content/commitment_os/training_output
+export ENV_BASE_URL=https://jayant2304-commitment-os.hf.space
 # Optional if the base model is gated:
 # export HF_TOKEN=...
 
 python3 evaluation/evaluate_llm_checkpoints.py
 python3 evaluation/plot_llm_checkpoints.py
 ```
+
+**Published LLM eval (one Colab run, same protocol as `llm_eval_protocol.json` in the Drive bundle):** success rate **0.467 → 0.600** (threshold 0.6); mean reward **0.662 → 0.656** (flat); **hard** difficulty mean reward **0.560 → 0.612**. Full per-task traces: `artifacts/evals_llm/` inside the [Drive folder](https://drive.google.com/drive/folders/1yexZBSqyH7gWlTzYN5DlX3tXfPMmeVAK?usp=sharing).
 
 Outputs are written to `artifacts/evals_llm/`:
 - `llm_eval_protocol.json`
@@ -289,17 +301,33 @@ Outputs are written to `artifacts/evals_llm/`:
 | Place | When to use |
 |-------|----------------|
 | **GitHub Releases** | Best default: attach `commitment_os_bundle.zip` to a tagged **Release** (not the git tree). Releases support large assets; clones stay small. Add the release URL in your paper, HF card, or a one-line note in this README. |
-| **Google Drive** | Fine for personal backup; share a view-only link. Colab can `gdown` or you download manually. Less ideal for anonymous “repro without auth” unless the link is public. |
+| **Google Drive** | Fine for personal backup; share a view-only link. Colab can `gdown --folder` or you download manually. Less ideal for anonymous “repro without auth” unless the link is public. |
 | **Hugging Face Hub** | Put **`training_output`** (LoRA + tokenizer) in a **model repo**; keep eval JSON/SVG in a **dataset** or second repo if you want. Good for ML readers; use your new token, not chat. |
 | **Git LFS** | Only if you truly want binaries tracked in git: install LFS, `git lfs track "*.safetensors"` (and patterns you need), then commit. Still increases clone size for everyone with LFS enabled. |
 
-**After you publish:** paste the canonical URL somewhere durable (README line, `HF_README.md`, or repo wiki). Example Colab fetch + unpack (replace `RELEASE_URL`):
+**Published bundle (Google Drive):** LoRA + tokenizer + LLM eval artifacts (same layout as a local run):
+
+[commitment_os_bundle on Google Drive](https://drive.google.com/drive/folders/1yexZBSqyH7gWlTzYN5DlX3tXfPMmeVAK?usp=sharing)
+
+Contents: `training_output/` (adapter + metrics), `artifacts/evals_llm/` (JSON, CSV, SVG, protocol). After download, point `TRAINED_MODEL_PATH` at the `training_output` folder that contains `adapter_config.json` (nested paths may differ if you unzip inside Colab).
+
+**Option A — GitHub Release zip** (replace `RELEASE_URL`):
 
 ```bash
 curl -L -o commitment_os_bundle.zip "RELEASE_URL"
 unzip -q commitment_os_bundle.zip -d .
 export TRAINED_MODEL_PATH="$(pwd)/training_output"
 ```
+
+**Option B — Google Drive folder in Colab** (`pip install gdown` once):
+
+```bash
+gdown --folder "https://drive.google.com/drive/folders/1yexZBSqyH7gWlTzYN5DlX3tXfPMmeVAK"
+# gdown creates a directory (often the folder title, e.g. commitment_os_bundle/):
+export TRAINED_MODEL_PATH="$(pwd)/commitment_os_bundle/training_output"
+```
+
+If the directory name differs, set `TRAINED_MODEL_PATH` to the folder that contains `adapter_config.json`.
 
 ---
 
@@ -317,6 +345,10 @@ export TRAINED_MODEL_PATH="$(pwd)/training_output"
 | pyproject.toml with [project.scripts] | ✅ |
 | uv.lock generated | ✅ |
 | server/app.py main() with if __name__ | ✅ |
+| `.env.example` lists inference + LLM eval variables | ✅ |
+| Colab notebooks (training + checkpoint eval) + Drive bundle | ✅ |
+
+**Docker scope:** the image installs server dependencies from `requirements.txt` and runs the FastAPI app. For `inference.py` or LLM eval inside the container, install extras manually (`openai`, `requests`, `trl`, etc.) or extend the Dockerfile.
 
 ---
 

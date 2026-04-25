@@ -96,11 +96,17 @@ For true model-learning proof (pre-RL checkpoint vs post-RL checkpoint),
 run:
 
 ```bash
-pip install transformers peft accelerate torch sentencepiece
+# From cloned repo (core deps + torch/transformers/peft/… via optional extra):
+pip install -e ".[llm-eval]"
 export BASELINE_MODEL_NAME=Qwen/Qwen2.5-1.5B-Instruct
 export TRAINED_MODEL_PATH=/content/commitment_os/training_output
+export ENV_BASE_URL=https://jayant2304-commitment-os.hf.space
 python3 evaluation/evaluate_llm_checkpoints.py
 python3 evaluation/plot_llm_checkpoints.py
 ```
 
 Artifacts are written to `artifacts/evals_llm/`.
+
+**Published LLM run (bundle on Drive):** success **46.7% → 60.0%** at reward threshold **0.6**; mean reward ~flat; gains concentrated on **hard** tasks. Traces: `artifacts/evals_llm/*.json` in the folder below.
+
+**Pretrained adapter + LLM eval artifacts (Google Drive):** [commitment_os_bundle](https://drive.google.com/drive/folders/1yexZBSqyH7gWlTzYN5DlX3tXfPMmeVAK?usp=sharing) — download `training_output/` and set `TRAINED_MODEL_PATH` accordingly; full `gdown` notes are in the GitHub `README.md`.

@@ -7,7 +7,7 @@ name = "commitment-os"
 version = "0.1.0"
 description = "CommitmentOS: the first RL environment that trains temporal commitment coherence in LLMs"
 requires-python = ">=3.10"
-license = {text = "MIT"}
+license = "MIT"
 authors = [
     {name = "Jayant Aggarwal"},
 ]
@@ -40,4 +40,19 @@ training = [
     "torch>=2.0.0",
     "peft>=0.14.0",
     "datasets>=3.0.0",
+    "accelerate>=0.30.0",
+    "sentencepiece>=0.2.0",
 ]
+# Local Transformers + PEFT eval (evaluate_llm_checkpoints.py); not in Docker requirements.txt
+llm-eval = [
+    "transformers>=4.45.0",
+    "peft>=0.14.0",
+    "torch>=2.0.0",
+    "accelerate>=0.30.0",
+    "sentencepiece>=0.2.0",
+    "requests>=2.31.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["server*", "training*"]

@@ -88,8 +88,9 @@ def _load_runtime_deps() -> tuple[Any, Any, Any, Any]:
         from transformers import AutoModelForCausalLM, AutoTokenizer
     except ImportError as exc:
         raise RuntimeError(
-            "Missing evaluation dependencies. Install with: "
-            "pip install transformers peft accelerate torch sentencepiece"
+            "Missing evaluation dependencies. From the repo root: "
+            'pip install -e ".[llm-eval]"'
+            "  (or: pip install transformers peft accelerate torch sentencepiece)"
         ) from exc
     return torch, AutoModelForCausalLM, AutoTokenizer, PeftModel
 

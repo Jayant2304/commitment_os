@@ -9,11 +9,13 @@ Both are evaluated with an identical protocol.
 
 ## Required environment variables
 
-- `API_BASE_URL`
-- `HF_TOKEN` (or `OPENAI_API_KEY`)
-- `ENV_BASE_URL`
 - `BASELINE_MODEL_NAME`
-- `TRAINED_MODEL_NAME`
+- `TRAINED_MODEL_PATH` (local directory with `adapter_config.json`)
+- `ENV_BASE_URL` (CommitmentOS HTTP API)
+
+Optional:
+
+- `HF_TOKEN` (gated Hub models / rate limits)
 
 Optional protocol overrides:
 
@@ -28,6 +30,7 @@ Optional protocol overrides:
 
 ```bash
 cd commitment_os
+pip install -e ".[llm-eval]"
 python3 evaluation/evaluate_llm_checkpoints.py
 python3 evaluation/plot_llm_checkpoints.py
 ```
@@ -44,7 +47,9 @@ cd /content/commitment_os && zip -r /content/commitment_os_bundle.zip training_o
 
 Or copy `training_output/` and `artifacts/evals_llm/` to Google Drive if the zip is too large for the browser.
 
-These bundles are **not** checked into git (clone speed + history). A **~330MB** zip (weights + this folder) is a normal size: publish it as a **GitHub Release** asset, **HF Hub**, or **Google Drive**, then link it from the root **README** (see *Where ~330MB should live* there).
+These bundles are **not** checked into git (clone speed + history). A **~330MB** zip (weights + this folder) is a normal size: publish it as a **GitHub Release** asset, **HF Hub**, or **Google Drive**.
+
+**Drive (weights + this folder):** [commitment_os_bundle](https://drive.google.com/drive/folders/1yexZBSqyH7gWlTzYN5DlX3tXfPMmeVAK?usp=sharing) — after download you should have `artifacts/evals_llm/` (this layout) next to `training_output/`. See root **README** for `gdown` / `TRAINED_MODEL_PATH` notes.
 
 ## Expected outputs
 
