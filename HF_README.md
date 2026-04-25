@@ -32,7 +32,7 @@ curl -X POST "https://jayant2304-commitment-os.hf.space/reset?task_id=easy_001"
 # Make a tool call
 curl -X POST "https://jayant2304-commitment-os.hf.space/step" \
   -H "Content-Type: application/json" \
-  -d '{"action_type": "view_calendar", "date": "2026-04-25"}'
+  -d '{"action": {"action_type": "view_calendar", "date": "2026-04-25"}}'
 
 # Get state
 curl "https://jayant2304-commitment-os.hf.space/state"

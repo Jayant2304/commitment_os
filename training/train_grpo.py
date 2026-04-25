@@ -66,12 +66,46 @@ def build_dataset(num_scenarios: int = 15) -> List[Dict[str, Any]]:
     return dataset
 
 
-def reward_function(completions: List[str], **kwargs: Any) -> List[float]:
+def reward_function(completions: List[Any], **kwargs: Any) -> List[float]:
     """Reward function for GRPO — evaluates completions against CommitmentOS."""
     from training.env_factory import CommitmentOSEnvFactory
 
+    def _completion_to_text(completion: Any) -> str:
+        """Normalize TRL completion payloads across versions.
+
+        Depending on TRL/Transformers version, completions can arrive as
+        strings, dicts, or nested lists of chat/message objects.
+        """
+        if isinstance(completion, str):
+            return completion
+        if isinstance(completion, dict):
+            content = completion.get("content", completion.get("text", ""))
+            if isinstance(content, str):
+                return content
+            if isinstance(content, list):
+                return "\n".join(str(item) for item in content)
+            return str(content)
+        if isinstance(completion, list):
+            parts: List[str] = []
+            for item in completion:
+                if isinstance(item, str):
+                    parts.append(item)
+                elif isinstance(item, dict):
+                    content = item.get("content", item.get("text", ""))
+                    if isinstance(content, list):
+                        content = " ".join(
+                            block.get("text", str(block)) if isinstance(block, dict) else str(block)
+                            for block in content
+                        )
+                    parts.append(str(content))
+                else:
+                    parts.append(str(item))
+            return "\n".join(part for part in parts if part)
+        return str(completion)
+
     factory = CommitmentOSEnvFactory(max_turns=8)
-    return factory(completions)
+    normalized = [_completion_to_text(completion) for completion in completions]
+    return factory(normalized)
 
 
 def main() -> None:
@@ -95,7 +129,7 @@ def main() -> None:
 
     model = AutoModelForCausalLM.from_pretrained(
         args.model,
-        torch_dtype=torch.bfloat16 if torch.cuda.is_available() else torch.float32,
+        dtype=torch.bfloat16 if torch.cuda.is_available() else torch.float32,
         device_map="auto" if torch.cuda.is_available() else None,
         trust_remote_code=True,
     )
@@ -122,7 +156,7 @@ def main() -> None:
         save_steps=50,
         bf16=torch.cuda.is_available(),
         gradient_accumulation_steps=2,
-        warmup_ratio=0.1,
+        warmup_steps=5,
         max_completion_length=512,
         num_generations=args.group_size,
         report_to="none",
@@ -131,7 +165,7 @@ def main() -> None:
     print("Initialising GRPOTrainer...")
     trainer = GRPOTrainer(
         model=model,
-        config=training_config,
+        args=training_config,
         train_dataset=dataset,
         processing_class=tokenizer,
         reward_funcs=reward_function,
