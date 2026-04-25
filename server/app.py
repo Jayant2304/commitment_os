@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 
 from openenv.core.env_server import create_fastapi_app
+from fastapi import Query
 
 from constants import PROJECT_DESCRIPTION, VERSION
 from models import CommitmentAction, CommitmentObservation, CommitmentState
@@ -26,8 +27,34 @@ app.version = VERSION
 
 app.routes[:] = [
     r for r in app.routes
-    if not (hasattr(r, "path") and r.path in ("/state", "/mcp"))
+    if not (hasattr(r, "path") and r.path in ("/state", "/mcp", "/reset"))
 ]
+
+
+@app.post("/reset")
+def reset_episode(
+    task_id: str | None = Query(default=None),
+    difficulty: str | None = Query(default=None),
+    seed: int | None = Query(default=None),
+    episode_id: str | None = Query(default=None),
+) -> dict[str, object]:
+    """Reset endpoint with explicit query-param support.
+
+    The default OpenEnv route did not reliably propagate ``task_id`` from
+    query params in this deployment setup, which made scenario selection
+    non-deterministic for demos/evaluations.
+    """
+    obs = _shared_env.reset(
+        seed=seed,
+        episode_id=episode_id,
+        task_id=task_id,
+        difficulty=difficulty,
+    )
+    return {
+        "observation": obs.model_dump(),
+        "reward": float(obs.reward),
+        "done": bool(obs.done),
+    }
 
 
 @app.get("/state", response_model=CommitmentState)
