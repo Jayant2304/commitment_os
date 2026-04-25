@@ -20,6 +20,9 @@ from typing import Any
 
 import requests
 from dotenv import load_dotenv
+from pydantic import ValidationError
+
+from models import CommitmentAction
 
 ARTIFACT_DIR = Path("artifacts/evals_llm")
 ARTIFACT_DIR.mkdir(parents=True, exist_ok=True)
@@ -110,6 +113,45 @@ def _parse_action(text: str) -> dict[str, Any]:
     return {"action_type": "submit_plan"}
 
 
+def _normalize_action(action: dict[str, Any]) -> dict[str, Any]:
+    allowed_fields = set(CommitmentAction.model_fields.keys())
+    payload = {k: v for k, v in action.items() if k in allowed_fields}
+
+    if isinstance(payload.get("participants"), str):
+        participants = [
+            item.strip()
+            for item in payload["participants"].split(",")
+            if item.strip()
+        ]
+        payload["participants"] = participants
+
+    if "duration_min" in payload:
+        try:
+            payload["duration_min"] = int(payload["duration_min"])
+        except (TypeError, ValueError):
+            payload.pop("duration_min", None)
+
+    if "max_price" in payload:
+        try:
+            payload["max_price"] = int(payload["max_price"])
+        except (TypeError, ValueError):
+            payload.pop("max_price", None)
+
+    if "max_distance_miles" in payload:
+        try:
+            payload["max_distance_miles"] = float(payload["max_distance_miles"])
+        except (TypeError, ValueError):
+            payload.pop("max_distance_miles", None)
+
+    if isinstance(payload.get("near_airport"), str):
+        payload["near_airport"] = payload["near_airport"].strip().lower() in {"true", "1", "yes"}
+
+    try:
+        return CommitmentAction.model_validate(payload).model_dump()
+    except ValidationError:
+        return CommitmentAction(action_type="submit_plan").model_dump()
+
+
 def _dtype_and_device(torch_mod: Any) -> tuple[Any, str | None]:
     if not torch_mod.cuda.is_available():
         return torch_mod.float32, None
@@ -176,7 +218,7 @@ class LocalChatModel:
         prompt_len = inputs["input_ids"].shape[-1]
         new_tokens = output_ids[0][prompt_len:]
         raw = self.tokenizer.decode(new_tokens, skip_special_tokens=True).strip()
-        return _parse_action(raw), raw
+        return _normalize_action(_parse_action(raw)), raw
 
     def unload(self) -> None:
         del self.model
@@ -204,7 +246,7 @@ def load_baseline_model() -> LocalChatModel:
         BASELINE_MODEL,
         trust_remote_code=True,
         token=HF_TOKEN,
-        torch_dtype=dtype,
+        dtype=dtype,
         device_map=device_map,
     )
     model.eval()
@@ -227,7 +269,7 @@ def load_trained_model() -> LocalChatModel:
         BASELINE_MODEL,
         trust_remote_code=True,
         token=HF_TOKEN,
-        torch_dtype=dtype,
+        dtype=dtype,
         device_map=device_map,
     )
     model = PeftModel.from_pretrained(base_model, adapter_path)
@@ -258,7 +300,11 @@ def _env_step(action: dict[str, Any], episode_id: str) -> dict[str, Any]:
         json={"action": action},
         timeout=30,
     )
-    resp.raise_for_status()
+    if resp.status_code >= 400:
+        raise requests.HTTPError(
+            f"{resp.status_code} {resp.reason}: {resp.text}",
+            response=resp,
+        )
     data = resp.json()
     obs = data.get("observation", data)
     obs["done"] = data.get("done", obs.get("done", False))
