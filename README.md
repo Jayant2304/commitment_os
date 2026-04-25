@@ -86,6 +86,18 @@ docker build -t commitment-os .
 docker run -p 7860:7860 commitment-os
 ```
 
+### Hugging Face Space (sync from this repo)
+
+Hugging Face **rejects `git push` that include certain binaries** (for example `artifacts/*.png`), while GitHub keeps those PNGs. Use the same workflow as before: **clone the Space repo, `rsync` the project without `*.png`, copy `HF_README.md` → `README.md` for the Space card, commit, push** — scripted as:
+
+```bash
+cd commitment_os
+export HF_TOKEN=…   # HF token with write access to the Space
+./scripts/sync_hf_space.sh "Optional commit message"
+```
+
+Override clone directory with `HF_SYNC_CLONE_DIR` if needed. Code changes still land on GitHub via normal `git push origin`; run this script when you want the Space to catch up.
+
 ### API Usage
 
 ```bash
