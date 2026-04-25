@@ -109,12 +109,12 @@ class CommitmentEnvironment(
             return self._finish_episode()
 
         step_reward = 0.0
-        tool_result = self._dispatch_tool(action, at)
+        tool_result, dispatch_status = self._dispatch_tool(action, at)
         self._last_tool_result = tool_result
 
-        if "CONFLICT" in tool_result:
+        if dispatch_status == "conflict":
             step_reward = -0.05
-        elif at in ("schedule_meeting", "reschedule_event", "send_email", "book_restaurant"):
+        elif dispatch_status == "success" and at in ("schedule_meeting", "reschedule_event", "send_email", "book_restaurant"):
             step_reward = 0.05
 
         self._cumulative_reward += step_reward
@@ -144,14 +144,14 @@ class CommitmentEnvironment(
     # Tool dispatch
     # ------------------------------------------------------------------
 
-    def _dispatch_tool(self, action: CommitmentAction, at: str) -> str:
+    def _dispatch_tool(self, action: CommitmentAction, at: str) -> tuple[str, str]:
         assert self._world is not None
         turn = self._step_count
 
         if at == "view_calendar":
-            return self._world.view_calendar(action.date)
+            return self._world.view_calendar(action.date), "info"
         elif at == "check_availability":
-            return self._world.check_availability(action.person)
+            return self._world.check_availability(action.person), "info"
         elif at == "search_restaurants":
             return self._world.search_restaurants(
                 cuisine=action.cuisine,
@@ -159,9 +159,9 @@ class CommitmentEnvironment(
                 dietary=action.dietary,
                 max_distance_miles=action.max_distance_miles,
                 near_airport=action.near_airport,
-            )
+            ), "info"
         elif at == "schedule_meeting":
-            return self._world.schedule_meeting(
+            result = self._world.schedule_meeting(
                 title=action.title,
                 date=action.date,
                 time=action.time,
@@ -170,25 +170,36 @@ class CommitmentEnvironment(
                 location=action.location,
                 turn=turn,
             )
+            status = "conflict" if result.startswith("CONFLICT:") else "success"
+            return result, status
         elif at == "reschedule_event":
-            return self._world.reschedule_event(
+            result = self._world.reschedule_event(
                 event_id=action.event_id,
                 new_time=action.new_time,
                 turn=turn,
             )
+            status = "conflict" if result.startswith("CONFLICT:") else ("error" if "not found" in result.lower() else "success")
+            return result, status
         elif at == "cancel_event":
-            return self._world.cancel_event(action.event_id, turn=turn)
+            result = self._world.cancel_event(action.event_id, turn=turn)
+            status = "error" if "not found" in result.lower() else "success"
+            return result, status
         elif at == "send_email":
             return self._world.send_email(
                 to=action.to,
                 subject=action.subject,
                 body=action.body,
                 turn=turn,
-            )
+            ), "success"
         elif at == "book_restaurant":
-            return self._world.book_restaurant(action.restaurant_name, turn=turn)
+            result = self._world.book_restaurant(action.restaurant_name, turn=turn)
+            status = "error" if "not found" in result.lower() else "success"
+            return result, status
         else:
-            return f"Unknown action_type: '{at}'. Valid types: view_calendar, check_availability, search_restaurants, schedule_meeting, reschedule_event, cancel_event, send_email, book_restaurant, submit_plan"
+            return (
+                f"Unknown action_type: '{at}'. Valid types: view_calendar, check_availability, search_restaurants, schedule_meeting, reschedule_event, cancel_event, send_email, book_restaurant, submit_plan",
+                "error",
+            )
 
     # ------------------------------------------------------------------
     # Observation builder

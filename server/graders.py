@@ -98,7 +98,7 @@ def _check_constraint(constraint, world: WorldState) -> bool:
             em.get("to", "").lower() == lower or lower in em.get("body", "").lower()
             for em in world.emails_sent
         )
-        return higher_kept
+        return higher_kept and lower_moved
 
     return False
 

@@ -10,8 +10,8 @@
 
 - GitHub Repository: [https://github.com/Jayant2304/commitment_os](https://github.com/Jayant2304/commitment_os)
 - Hugging Face Space (live environment): [https://huggingface.co/spaces/Jayant2304/commitment-os](https://huggingface.co/spaces/Jayant2304/commitment-os)
-- Colab Training Notebook: `<ADD_COLAB_NOTEBOOK_LINK>`
-- Demo Video / Blog / Slides: `<ADD_PRESENTATION_LINK>`
+- Colab Training Notebook: `Added in final submission form`
+- Demo Video / Blog / Slides: `Added in final submission form`
 
 ---
 

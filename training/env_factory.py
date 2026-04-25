@@ -143,7 +143,9 @@ class CommitmentOSEnvFactory:
                 if obs.done:
                     break
             except Exception:
-                continue
+                # Invalid action payloads should be penalized, not silently ignored.
+                last_reward = 0.01
+                break
 
         if not env._done:
             obs = env.step(CommitmentAction(action_type="submit_plan"))
