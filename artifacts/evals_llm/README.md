@@ -32,6 +32,20 @@ python3 evaluation/evaluate_llm_checkpoints.py
 python3 evaluation/plot_llm_checkpoints.py
 ```
 
+The evaluator prints one line per task (`[eval …] task i/n`) so long Colab runs do not look frozen.
+
+## After Colab
+
+Zip weights + artifacts for download (paths assume `/content/commitment_os`):
+
+```bash
+cd /content/commitment_os && zip -r /content/commitment_os_bundle.zip training_output artifacts/evals_llm
+```
+
+Or copy `training_output/` and `artifacts/evals_llm/` to Google Drive if the zip is too large for the browser.
+
+These bundles are **not** checked into git (clone speed + history). A **~330MB** zip (weights + this folder) is a normal size: publish it as a **GitHub Release** asset, **HF Hub**, or **Google Drive**, then link it from the root **README** (see *Where ~330MB should live* there).
+
 ## Expected outputs
 
 - `llm_eval_protocol.json`

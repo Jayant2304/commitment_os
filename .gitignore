@@ -11,3 +11,6 @@ build/
 .ruff_cache/
 *.log
 .DS_Store
+
+# Local GRPO / LoRA output (large; do not commit)
+training_output/

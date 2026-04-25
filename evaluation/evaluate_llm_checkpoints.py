@@ -392,7 +392,13 @@ def run_task(chat_model: LocalChatModel, task_id: str) -> dict[str, Any]:
 
 
 def run_model(chat_model: LocalChatModel, task_ids: list[str]) -> list[dict[str, Any]]:
-    return [run_task(chat_model, task_id=task_id) for task_id in task_ids]
+    results: list[dict[str, Any]] = []
+    n = len(task_ids)
+    label = chat_model.display_name
+    for i, task_id in enumerate(task_ids, start=1):
+        print(f"[eval {label}] task {i}/{n}: {task_id}", flush=True)
+        results.append(run_task(chat_model, task_id=task_id))
+    return results
 
 
 def _write_json(path: Path, payload: Any) -> None:
@@ -535,12 +541,17 @@ def _print_summary() -> None:
 def main() -> None:
     _require_env()
     task_ids = _get_task_ids()
+    print(f"CommitmentOS LLM eval: {len(task_ids)} tasks, env={ENV_BASE_URL}", flush=True)
 
+    print("Loading baseline model…", flush=True)
     baseline_model = load_baseline_model()
+    print("Running baseline…", flush=True)
     baseline_results = run_model(baseline_model, task_ids)
     baseline_model.unload()
 
+    print("Loading trained adapter…", flush=True)
     trained_model = load_trained_model()
+    print("Running trained…", flush=True)
     trained_results = run_model(trained_model, task_ids)
     trained_model.unload()
 

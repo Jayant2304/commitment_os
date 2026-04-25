@@ -257,9 +257,11 @@ For actual learning proof, run the same protocol on:
 
 Both runs use identical seed, decode settings, max steps, and parser.
 
+See `.env.example` for all variables: set **`TRAINED_MODEL_PATH`** to the directory that contains `adapter_config.json` (for example `./training_output` after `train_grpo.py`). The evaluator does not read a Hub-only model name for the adapter.
+
 ```bash
 cd commitment_os
-pip install transformers peft accelerate torch sentencepiece
+pip install transformers peft accelerate torch sentencepiece pydantic
 
 export BASELINE_MODEL_NAME=Qwen/Qwen2.5-1.5B-Instruct
 export TRAINED_MODEL_PATH=/content/commitment_os/training_output
@@ -279,6 +281,25 @@ Outputs are written to `artifacts/evals_llm/`:
 - `llm_case_study_hard_015.md`
 - `llm_reward_by_task.svg`
 - `llm_violations_before_after.svg`
+
+**Why those zips are not committed in git:** a single bundle (`training_output` + `artifacts/evals_llm/`) is often **on the order of ~100–400MB** (yours was about **330MB** total—totally normal). Checking that into **main branch history** still makes every `git clone` pull hundreds of MB forever and is painful to rewrite. We **gitignore** `training_output/` so day-to-day commits stay small.
+
+**Where ~330MB *should* live (pick one):**
+
+| Place | When to use |
+|-------|----------------|
+| **GitHub Releases** | Best default: attach `commitment_os_bundle.zip` to a tagged **Release** (not the git tree). Releases support large assets; clones stay small. Add the release URL in your paper, HF card, or a one-line note in this README. |
+| **Google Drive** | Fine for personal backup; share a view-only link. Colab can `gdown` or you download manually. Less ideal for anonymous “repro without auth” unless the link is public. |
+| **Hugging Face Hub** | Put **`training_output`** (LoRA + tokenizer) in a **model repo**; keep eval JSON/SVG in a **dataset** or second repo if you want. Good for ML readers; use your new token, not chat. |
+| **Git LFS** | Only if you truly want binaries tracked in git: install LFS, `git lfs track "*.safetensors"` (and patterns you need), then commit. Still increases clone size for everyone with LFS enabled. |
+
+**After you publish:** paste the canonical URL somewhere durable (README line, `HF_README.md`, or repo wiki). Example Colab fetch + unpack (replace `RELEASE_URL`):
+
+```bash
+curl -L -o commitment_os_bundle.zip "RELEASE_URL"
+unzip -q commitment_os_bundle.zip -d .
+export TRAINED_MODEL_PATH="$(pwd)/training_output"
+```
 
 ---
 
