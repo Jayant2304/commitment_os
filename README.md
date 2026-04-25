@@ -251,14 +251,21 @@ python3 evaluation/plot_improvement.py
 
 ### B) True LLM Learning Eval (Pre-RL vs Post-RL)
 
-For actual learning proof, run the same protocol on two checkpoints:
+For actual learning proof, run the same protocol on:
 - baseline model (`BASELINE_MODEL_NAME`)
-- RL-trained checkpoint (`TRAINED_MODEL_NAME`)
+- RL-trained LoRA adapter on disk (`TRAINED_MODEL_PATH`)
 
 Both runs use identical seed, decode settings, max steps, and parser.
 
 ```bash
 cd commitment_os
+pip install transformers peft accelerate torch sentencepiece
+
+export BASELINE_MODEL_NAME=Qwen/Qwen2.5-1.5B-Instruct
+export TRAINED_MODEL_PATH=/content/commitment_os/training_output
+# Optional if the base model is gated:
+# export HF_TOKEN=...
+
 python3 evaluation/evaluate_llm_checkpoints.py
 python3 evaluation/plot_llm_checkpoints.py
 ```

@@ -1,8 +1,8 @@
 """Evaluate base vs RL-trained LLM checkpoints on CommitmentOS.
 
-This script runs the SAME protocol for two model names:
-- baseline model (pre-RL)
-- trained model (post-RL checkpoint)
+This script runs the SAME protocol for two local-loading model setups:
+- baseline model loaded from a Hugging Face model ID
+- trained model loaded from a local LoRA adapter path on top of that base model
 
 It writes judge-friendly artifacts under artifacts/evals_llm/.
 """
@@ -10,6 +10,7 @@ It writes judge-friendly artifacts under artifacts/evals_llm/.
 from __future__ import annotations
 
 import csv
+import gc
 import json
 import os
 import uuid
@@ -19,19 +20,17 @@ from typing import Any
 
 import requests
 from dotenv import load_dotenv
-from openai import OpenAI
 
 ARTIFACT_DIR = Path("artifacts/evals_llm")
 ARTIFACT_DIR.mkdir(parents=True, exist_ok=True)
 
 load_dotenv()
 
-API_BASE_URL = os.getenv("API_BASE_URL", "https://api.openai.com/v1")
-API_KEY = os.getenv("HF_TOKEN") or os.getenv("OPENAI_API_KEY") or ""
 ENV_BASE_URL = os.getenv("ENV_BASE_URL", "https://jayant2304-commitment-os.hf.space")
+HF_TOKEN = os.getenv("HF_TOKEN", "").strip() or None
 
 BASELINE_MODEL = os.getenv("BASELINE_MODEL_NAME", "").strip()
-TRAINED_MODEL = os.getenv("TRAINED_MODEL_NAME", "").strip()
+TRAINED_MODEL_PATH = os.getenv("TRAINED_MODEL_PATH", "").strip()
 
 EVAL_SEED = int(os.getenv("EVAL_SEED", "42"))
 MAX_STEPS = int(os.getenv("EVAL_MAX_STEPS", "12"))
@@ -66,12 +65,25 @@ IMPORTANT RULES:
 
 
 def _require_env() -> None:
-    if not API_KEY:
-        raise RuntimeError("Set HF_TOKEN or OPENAI_API_KEY")
     if not BASELINE_MODEL:
         raise RuntimeError("Set BASELINE_MODEL_NAME")
-    if not TRAINED_MODEL:
-        raise RuntimeError("Set TRAINED_MODEL_NAME")
+    if not TRAINED_MODEL_PATH:
+        raise RuntimeError("Set TRAINED_MODEL_PATH")
+    if not Path(TRAINED_MODEL_PATH).exists():
+        raise RuntimeError(f"TRAINED_MODEL_PATH does not exist: {TRAINED_MODEL_PATH}")
+
+
+def _load_runtime_deps() -> tuple[Any, Any, Any, Any]:
+    try:
+        import torch
+        from peft import PeftModel
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+    except ImportError as exc:
+        raise RuntimeError(
+            "Missing evaluation dependencies. Install with: "
+            "pip install transformers peft accelerate torch sentencepiece"
+        ) from exc
+    return torch, AutoModelForCausalLM, AutoTokenizer, PeftModel
 
 
 def _get_task_ids() -> list[str]:
@@ -98,17 +110,134 @@ def _parse_action(text: str) -> dict[str, Any]:
     return {"action_type": "submit_plan"}
 
 
-def _llm_action(client: OpenAI, model_name: str, messages: list[dict[str, str]]) -> tuple[dict[str, Any], str]:
-    response = client.chat.completions.create(
-        model=model_name,
-        messages=messages,
-        temperature=TEMPERATURE,
-        top_p=TOP_P,
-        max_tokens=MAX_NEW_TOKENS,
-        stream=False,
+def _dtype_and_device(torch_mod: Any) -> tuple[Any, str | None]:
+    if not torch_mod.cuda.is_available():
+        return torch_mod.float32, None
+    if torch_mod.cuda.is_bf16_supported():
+        return torch_mod.bfloat16, "auto"
+    return torch_mod.float16, "auto"
+
+
+def _path_has_tokenizer_files(path: Path) -> bool:
+    tokenizer_files = {
+        "tokenizer.json",
+        "tokenizer_config.json",
+        "special_tokens_map.json",
+        "vocab.json",
+        "merges.txt",
+        "spiece.model",
+    }
+    return any((path / file_name).exists() for file_name in tokenizer_files)
+
+
+class LocalChatModel:
+    def __init__(
+        self,
+        *,
+        display_name: str,
+        tokenizer: Any,
+        model: Any,
+        torch_mod: Any,
+    ) -> None:
+        self.display_name = display_name
+        self.tokenizer = tokenizer
+        self.model = model
+        self.torch = torch_mod
+
+    def generate_action(self, messages: list[dict[str, str]]) -> tuple[dict[str, Any], str]:
+        prompt = self.tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True,
+        )
+        inputs = self.tokenizer(prompt, return_tensors="pt")
+        target_device = next(self.model.parameters()).device
+        inputs = {k: v.to(target_device) for k, v in inputs.items()}
+
+        generation_kwargs: dict[str, Any] = {
+            "max_new_tokens": MAX_NEW_TOKENS,
+            "pad_token_id": self.tokenizer.pad_token_id,
+            "eos_token_id": self.tokenizer.eos_token_id,
+        }
+        if TEMPERATURE > 0:
+            generation_kwargs.update(
+                {
+                    "do_sample": True,
+                    "temperature": TEMPERATURE,
+                    "top_p": TOP_P,
+                }
+            )
+        else:
+            generation_kwargs["do_sample"] = False
+
+        with self.torch.inference_mode():
+            output_ids = self.model.generate(**inputs, **generation_kwargs)
+
+        prompt_len = inputs["input_ids"].shape[-1]
+        new_tokens = output_ids[0][prompt_len:]
+        raw = self.tokenizer.decode(new_tokens, skip_special_tokens=True).strip()
+        return _parse_action(raw), raw
+
+    def unload(self) -> None:
+        del self.model
+        gc.collect()
+        if self.torch.cuda.is_available():
+            self.torch.cuda.empty_cache()
+
+
+def _load_tokenizer(AutoTokenizer: Any, model_or_path: str | Path) -> Any:
+    tokenizer = AutoTokenizer.from_pretrained(
+        model_or_path,
+        trust_remote_code=True,
+        token=HF_TOKEN,
     )
-    raw = (response.choices[0].message.content or "").strip()
-    return _parse_action(raw), raw
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+    return tokenizer
+
+
+def load_baseline_model() -> LocalChatModel:
+    torch_mod, AutoModelForCausalLM, AutoTokenizer, _ = _load_runtime_deps()
+    dtype, device_map = _dtype_and_device(torch_mod)
+    tokenizer = _load_tokenizer(AutoTokenizer, BASELINE_MODEL)
+    model = AutoModelForCausalLM.from_pretrained(
+        BASELINE_MODEL,
+        trust_remote_code=True,
+        token=HF_TOKEN,
+        torch_dtype=dtype,
+        device_map=device_map,
+    )
+    model.eval()
+    return LocalChatModel(
+        display_name=BASELINE_MODEL,
+        tokenizer=tokenizer,
+        model=model,
+        torch_mod=torch_mod,
+    )
+
+
+def load_trained_model() -> LocalChatModel:
+    torch_mod, AutoModelForCausalLM, AutoTokenizer, PeftModel = _load_runtime_deps()
+    dtype, device_map = _dtype_and_device(torch_mod)
+    adapter_path = Path(TRAINED_MODEL_PATH)
+    tokenizer_source: str | Path = adapter_path if _path_has_tokenizer_files(adapter_path) else BASELINE_MODEL
+    tokenizer = _load_tokenizer(AutoTokenizer, tokenizer_source)
+
+    base_model = AutoModelForCausalLM.from_pretrained(
+        BASELINE_MODEL,
+        trust_remote_code=True,
+        token=HF_TOKEN,
+        torch_dtype=dtype,
+        device_map=device_map,
+    )
+    model = PeftModel.from_pretrained(base_model, adapter_path)
+    model.eval()
+    return LocalChatModel(
+        display_name=str(adapter_path),
+        tokenizer=tokenizer,
+        model=model,
+        torch_mod=torch_mod,
+    )
 
 
 def _env_reset(task_id: str, episode_id: str) -> dict[str, Any]:
@@ -143,8 +272,9 @@ def _env_state(episode_id: str) -> dict[str, Any]:
     return resp.json()
 
 
-def run_task(client: OpenAI, model_name: str, task_id: str) -> dict[str, Any]:
-    episode_id = f"eval-{model_name.replace('/', '-')}-{task_id}-{uuid.uuid4().hex[:8]}"
+def run_task(chat_model: LocalChatModel, task_id: str) -> dict[str, Any]:
+    safe_name = chat_model.display_name.replace("/", "-").replace(" ", "_")
+    episode_id = f"eval-{safe_name}-{task_id}-{uuid.uuid4().hex[:8]}"
     obs = _env_reset(task_id, episode_id)
 
     briefing = obs.get("briefing", "")
@@ -161,7 +291,7 @@ def run_task(client: OpenAI, model_name: str, task_id: str) -> dict[str, Any]:
     final_obs: dict[str, Any] = obs
 
     for step_num in range(1, MAX_STEPS + 1):
-        action, raw = _llm_action(client, model_name, messages)
+        action, raw = chat_model.generate_action(messages)
         step_obs = _env_step(action, episode_id)
         final_obs = step_obs
         done = bool(step_obs.get("done", False))
@@ -199,7 +329,7 @@ def run_task(client: OpenAI, model_name: str, task_id: str) -> dict[str, Any]:
     return {
         "task_id": task_id,
         "difficulty": final_obs.get("difficulty", ""),
-        "model_name": model_name,
+        "model_name": chat_model.display_name,
         "final_reward": round(final_reward, 4),
         "success": final_reward >= SUCCESS_THRESHOLD,
         "steps_used": int(state.get("step_count", step_num)),
@@ -210,8 +340,8 @@ def run_task(client: OpenAI, model_name: str, task_id: str) -> dict[str, Any]:
     }
 
 
-def run_model(client: OpenAI, model_name: str, task_ids: list[str]) -> list[dict[str, Any]]:
-    return [run_task(client, model_name=model_name, task_id=task_id) for task_id in task_ids]
+def run_model(chat_model: LocalChatModel, task_ids: list[str]) -> list[dict[str, Any]]:
+    return [run_task(chat_model, task_id=task_id) for task_id in task_ids]
 
 
 def _write_json(path: Path, payload: Any) -> None:
@@ -256,7 +386,7 @@ def write_artifacts(baseline: list[dict[str, Any]], trained: list[dict[str, Any]
             },
             "env_base_url": ENV_BASE_URL,
             "baseline_model_name": BASELINE_MODEL,
-            "trained_model_name": TRAINED_MODEL,
+            "trained_model_path": TRAINED_MODEL_PATH,
             "success_threshold": SUCCESS_THRESHOLD,
         },
     )
@@ -330,7 +460,7 @@ def write_artifacts(baseline: list[dict[str, Any]], trained: list[dict[str, Any]
 - Violations: {base_case['violation_count']}
 - Feedback: {base_case['feedback']}
 
-## Trained model ({TRAINED_MODEL})
+## Trained model ({TRAINED_MODEL_PATH})
 - Reward: {tr_case['final_reward']:.4f}
 - Steps: {tr_case['steps_used']}
 - Violations: {tr_case['violation_count']}
@@ -339,14 +469,33 @@ def write_artifacts(baseline: list[dict[str, Any]], trained: list[dict[str, Any]
         (ARTIFACT_DIR / "llm_case_study_hard_015.md").write_text(case_study)
 
 
+def _print_summary() -> None:
+    summary_path = ARTIFACT_DIR / "llm_summary.json"
+    summary = json.loads(summary_path.read_text())
+    print("\nCheckpoint comparison summary")
+    print(f"Baseline mean reward: {summary['baseline_mean_reward']:.4f}")
+    print(f"Trained mean reward:  {summary['trained_mean_reward']:.4f}")
+    print(f"Reward delta:         {summary['mean_reward_delta']:+.4f}")
+    print(f"Baseline success:     {summary['baseline_success_rate']:.4f}")
+    print(f"Trained success:      {summary['trained_success_rate']:.4f}")
+    print(f"Success delta:        {summary['success_rate_delta']:+.4f}")
+
+
 def main() -> None:
     _require_env()
-    client = OpenAI(base_url=API_BASE_URL, api_key=API_KEY)
     task_ids = _get_task_ids()
-    baseline_results = run_model(client, BASELINE_MODEL, task_ids)
-    trained_results = run_model(client, TRAINED_MODEL, task_ids)
+
+    baseline_model = load_baseline_model()
+    baseline_results = run_model(baseline_model, task_ids)
+    baseline_model.unload()
+
+    trained_model = load_trained_model()
+    trained_results = run_model(trained_model, task_ids)
+    trained_model.unload()
+
     write_artifacts(baseline_results, trained_results)
     print("Wrote LLM checkpoint artifacts to", ARTIFACT_DIR)
+    _print_summary()
 
 
 if __name__ == "__main__":

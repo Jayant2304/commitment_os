@@ -96,6 +96,9 @@ For true model-learning proof (pre-RL checkpoint vs post-RL checkpoint),
 run:
 
 ```bash
+pip install transformers peft accelerate torch sentencepiece
+export BASELINE_MODEL_NAME=Qwen/Qwen2.5-1.5B-Instruct
+export TRAINED_MODEL_PATH=/content/commitment_os/training_output
 python3 evaluation/evaluate_llm_checkpoints.py
 python3 evaluation/plot_llm_checkpoints.py
 ```
