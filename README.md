@@ -6,6 +6,13 @@
 
 **Theme**: Primary 3.2 (Personal Tasks) + Secondary Theme 2 (Long-Horizon Planning)
 
+## Links
+
+- GitHub Repository: [https://github.com/Jayant2304/commitment_os](https://github.com/Jayant2304/commitment_os)
+- Hugging Face Space (live environment): [https://huggingface.co/spaces/Jayant2304/commitment-os](https://huggingface.co/spaces/Jayant2304/commitment-os)
+- Colab Training Notebook: `<ADD_COLAB_NOTEBOOK_LINK>`
+- Demo Video / Blog / Slides: `<ADD_PRESENTATION_LINK>`
+
 ---
 
 ## Architecture
@@ -157,6 +164,35 @@ python training/train_grpo.py \
 - Commitment violation rate ↓
 - Steps per episode ↓
 - Communication quality ↑
+
+### Real Training Run (Colab)
+
+The following metrics are from an actual GRPO run on `Qwen/Qwen2.5-1.5B-Instruct`:
+
+- Runtime: **507.6 seconds** (~8.46 min)
+- Steps: **30**
+- Epochs: **2**
+- Final train loss: **-0.02182**
+- Reward range during training: **0.4021 -> 0.6896**
+- Final reward: **0.5437**
+
+Artifacts saved in `artifacts/`:
+- `artifacts/loss_curve.png`
+- `artifacts/reward_curve.png`
+- `artifacts/training_summary.csv`
+- `artifacts/training_metrics.json`
+
+#### Loss Curve
+
+![CommitmentOS GRPO Loss vs Step](artifacts/loss_curve.png)
+
+#### Reward Curve
+
+![CommitmentOS GRPO Reward vs Step](artifacts/reward_curve.png)
+
+These curves show non-trivial reward improvement peaks (~0.69) and confirm
+that the training loop runs end-to-end against the environment (not a static
+dataset baseline).
 
 ---
 

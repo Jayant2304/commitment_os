@@ -1,0 +1,2 @@
+train_runtime_sec,train_steps,epochs,train_loss_final,reward_min,reward_max,reward_last
+507.6,30,2,-0.02182,0.40209999680519104,0.6895999908447266,0.543749988079071
