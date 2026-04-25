@@ -7,7 +7,7 @@
 **Theme**: Primary 3.2 (Personal Tasks) + Secondary Theme 2 (Long-Horizon Planning)
 
 ## Links
-
+- **Blog / Writeup**: [Jayant2304/Commitment-os (model card)](https://huggingface.co/Jayant2304/Commitment-os)
 - **GitHub:** [Jayant2304/commitment_os](https://github.com/Jayant2304/commitment_os)
 - **Hugging Face Space** (live API + Space README): [Jayant2304/commitment-os](https://huggingface.co/spaces/Jayant2304/commitment-os)
 - **Pitch (additional materials):** the Hugging Face Space card and Space README are the short judge-facing narrative (problem → environment → reward → verification). If the hackathon form asks for a separate link, add a public under-2-minute video or slide deck URL there.
